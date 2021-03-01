@@ -1,3 +1,4 @@
+{% load static %}
 <!-- Path to manifest.json -->
 <link rel="manifest" href="{{ PWA_MANIFEST_URL }}">
 
@@ -14,29 +15,30 @@
 <meta name="apple-mobile-web-app-title" content="{{ PWA_APP_NAME }}">
 <meta name="apple-mobile-web-app-status-bar-style" content="{{ PWA_APP_STATUS_BAR_COLOR }}">
 
+{% load render_nested %}
 {% if PWA_APP_ICONS_APPLE %}
     {% for icon in PWA_APP_ICONS_APPLE %}
-        <link rel="apple-touch-icon" href="{{ icon.src }}" sizes="{{ icon.size }}">
+        <link rel="apple-touch-icon" href="{% render_nested icon.src %}" sizes="{{ icon.size }}">
     {% endfor %}
 {% else %}
     {% for icon in PWA_APP_ICONS %}
-        <link rel="apple-touch-icon" href="{{ icon.src }}" sizes="{{ icon.size }}">
+        <link rel="apple-touch-icon" href="{% render_nested icon.src %}" sizes="{{ icon.size }}">
     {% endfor %}
 {% endif %}
 
 
 {% for splash in PWA_APP_SPLASH_SCREEN %}
-<link href="{{ splash.src }}" media="{{ splash.media }}" rel="apple-touch-startup-image"/>
+<link href="{% render_nested splash.src %}" media="{{ splash.media }}" rel="apple-touch-startup-image"/>
 {% endfor %}
 
 
 <!-- Tile for Win8 -->
 <meta name="msapplication-TileColor" content="{{ PWA_APP_BACKGROUND_COLOR }}">
 {% with PWA_APP_ICONS|last as icon %}
-<meta name="msapplication-TileImage" content="{{ icon.src }}">
+<meta name="msapplication-TileImage" content="{% render_nested icon.src %}">
 
 
-<link rel="icon" sizes="{{ icon.size }}" href="{{ icon.src }}">
+<link rel="icon" sizes="{{ icon.size }}" href="{% render_nested icon.src %}">
 {% endwith %}
 
 <script type="text/javascript">
